@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\RoleUserResource;
+use App\Repositories\RoleUserRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class RoleUserController extends Controller
 {

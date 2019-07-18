@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PartnerResource;
+use App\Repositories\PartnerRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PartnersController extends Controller
 {

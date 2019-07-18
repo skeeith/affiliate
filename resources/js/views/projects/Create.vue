@@ -14,8 +14,8 @@
                             <input type="text" class="form-control" v-model="name" autocomplete="off" minlength="2" maxlength="255" required>
                         </div>
                         <div class="form-group">
-                            <label for="description">Description</label>
-                            <input type="description" class="form-control" v-model="description" autocomplete="off" minlength="2" maxlength="255" required>
+                            <label>Description</label>
+                            <textarea class="form-control" v-model="description" maxlength="1000"></textarea>
                         </div>
 
                         <br>
