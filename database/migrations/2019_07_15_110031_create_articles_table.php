@@ -21,7 +21,7 @@ class CreateArticlesTable extends Migration
                 ->on('users')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->bigInteger('partner_id')->unsign->nullable()ed();
+            $table->bigInteger('partner_id')->unsigned()->nullable();
             $table->foreign('partner_id')
                 ->references('id')
                 ->on('partners')
@@ -40,13 +40,13 @@ class CreateArticlesTable extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->string('image')->nullable();
-            $table->tinyText('image_detail')->nullable();
+            $table->text('image_detail')->nullable();
             $table->string('name');
             $table->string('slug');
             $table->text('body');
             $table->string('number');
             $table->string('deep_link');
-            $table->tinyText('short_description');
+            $table->text('short_description');
             $table->text('long_description');
             $table->decimal('price', 10, 2)->nullable();
             $table->decimal('price_old', 10, 2)->nullable();
