@@ -28,14 +28,12 @@
                     <thead>
                         <tr>
                             <th scope="col">Name</th>
-                            <th scope="col">Description</th>
                             <th scope="col">Options</th>
                         </tr>
                     </thead>
                     <tbody v-if="projects">
-                        <tr v-for="{ id, name, description } in projects">
+                        <tr v-for="{ id, name } in projects">
                             <td>{{ name }}</td>
-                            <td>{{ description }}</td>
                             <td>
                                 <router-link class="text-secondary" :to="{ name: 'projects.view', params: { id: id } }">
                                     <i class="fas fa-envelope-open-text"></i> View
@@ -127,11 +125,7 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>Name</label>
-                                <input type="text" class="form-control" v-model="searchColumnName" autocomplete="off" maxlength="255">
-                            </div>
-                            <div class="form-group">
-                                <label>Description</label>
-                                <input type="text" class="form-control" v-model="searchColumnDescription" autocomplete="off" maxlength="255">
+                                <input type="text" class="form-control" v-model="name" autocomplete="off" maxlength="255">
                             </div>
                             <div class="form-group">
                                 <label>Order By</label>
@@ -142,8 +136,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger btn-sm" @click.prevent.default="clear">Clear</button>
-                            <button type="button" class="btn btn-success btn-sm" @click.prevent.default="search">Search</button>
+                            <button type="button" class="btn btn-danger btn-sm" @click.prevent.default="clear()">Clear</button>
+                            <button type="button" class="btn btn-success btn-sm" @click.prevent.default="search()">Search</button>
                             <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
                         </div>
                     </div>
@@ -155,8 +149,8 @@
 </template>
 
 <script>
-    const getProjects = (page, per_page, searchColumnName, searchColumnDescription, order_by, callback) => {
-        const params = { page, per_page, searchColumnName, searchColumnDescription, order_by };
+    const getProjects = (page, per_page, name, order_by, callback) => {
+        const params = { page, per_page, name, order_by };
 
         axios.get('/api/projects', { params }).then(res => {
             callback(null, res.data);
@@ -175,8 +169,7 @@
         data() {
             return {
                 users: null,
-                searchColumnName: '',
-                searchColumnDescription: '',
+                name: '',
                 order_by: 'desc',
                 meta: {
                     current_page: null,
@@ -201,18 +194,18 @@
 
         beforeRouteEnter (to, from, next) {
             if (to.query.per_page == null) {
-                getProjects(to.query.page, 10, to.query.searchColumnName, to.query.searchColumnDescription, to.query.order_by, (err, data) => {
+                getProjects(to.query.page, 10, to.query.name, to.query.order_by, (err, data) => {
                     next(vm => vm.setData(err, data));
                 });
             } else {
-                getProjects(to.query.page, to.query.per_page, to.query.searchColumnName, to.query.searchColumnDescription, to.query.order_by, (err, data) => {
+                getProjects(to.query.page, to.query.per_page, to.query.name, to.query.order_by, (err, data) => {
                     next(vm => vm.setData(err, data));
                 });
             }
         },
 
         beforeRouteUpdate (to, from, next) {
-            getProjects(to.query.page, this.meta.per_page, this.searchColumnName, this.searchColumnDescription, this.order_by, (err, data) => {
+            getProjects(to.query.page, this.meta.per_page, this.name, this.order_by, (err, data) => {
                 this.setData(err, data);
                 next();
             });
@@ -265,8 +258,7 @@
                     query: {
                         page: 1,
                         per_page: this.meta.per_page,
-                        searchColumnName: this.searchColumnName,
-                        searchColumnDescription: this.searchColumnDescription,
+                        name: this.name,
                         order_by: this.order_by
                     }
                 });
@@ -277,8 +269,7 @@
                     name: 'projects.index',
                     query: {
                         page,
-                        per_page: this.meta.per_page,searchColumnName: this.searchColumnName,
-                        searchColumnDescription: this.searchColumnDescription,
+                        per_page: this.meta.per_page,name: this.name,
                         order_by: this.order_by
                     }
                 });
@@ -290,8 +281,7 @@
                     query: {
                         page: this.meta.last_page,
                         per_page: this.meta.per_page,
-                        searchColumnName: this.searchColumnName,
-                        searchColumnDescription: this.searchColumnDescription,
+                        name: this.name,
                         order_by: this.order_by
                     }
                 });
@@ -303,8 +293,7 @@
                     query: {
                         page: this.nextPage,
                         per_page: this.meta.per_page,
-                        searchColumnName: this.searchColumnName,
-                        searchColumnDescription: this.searchColumnDescription,
+                        name: this.name,
                         order_by: this.order_by
                     }
                 });
@@ -316,8 +305,7 @@
                     query: {
                         page: this.prevPage,
                         per_page: this.meta.per_page,
-                        searchColumnName: this.searchColumnName,
-                        searchColumnDescription: this.searchColumnDescription,
+                        name: this.name,
                         order_by: this.order_by
                     }
                 });
@@ -393,8 +381,7 @@
                     query: {
                         page: 1,
                         per_page: this.meta.per_page,
-                        searchColumnName: this.searchColumnName,
-                        searchColumnDescription: this.searchColumnDescription,
+                        name: this.name,
                         order_by: this.order_by
                     }
                 });
@@ -407,15 +394,13 @@
                     query: {
                         page: 1,
                         per_page: this.meta.per_page,
-                        searchColumnName: this.searchColumnName,
-                        searchColumnDescription: this.searchColumnDescription,
+                        name: this.name,
                         order_by: this.order_by
                     }
                 });
             },
             clear() {
-                this.searchColumnName = '';
-                this.searchColumnDescription = '';
+                this.name = '';
                 this.order_by = 'desc';
             },
             openSearchModal() {

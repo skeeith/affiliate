@@ -13,10 +13,6 @@
                             <label>Name</label>
                             <input type="text" class="form-control" v-model="project.name">
                         </div>
-                        <div class="form-group">
-                            <label>Description</label>
-                            <input type="description" class="form-control" v-model="project.description">
-                        </div>
                     </fieldset>
 
                     <br>
@@ -67,7 +63,7 @@
         mounted() {
             let promise = new Promise((resolve, reject) => {
                 axios.get('/api/projects/' + this.$route.params.id).then(res => {
-                    this.Project = res.data.Project;
+                    this.project = res.data.project;
                     resolve();
                 });
             });

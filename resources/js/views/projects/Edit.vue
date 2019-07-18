@@ -8,15 +8,10 @@
             </div>
             <div class="card-body">
                 <div v-if="ifReady">
-                    <form v-on:submit.prevent="updateproject()">
+                    <form v-on:submit.prevent="updateProject()">
                         <div class="form-group">
                             <label for="name">Name</label>
                             <input type="text" class="form-control" v-model="name" autocomplete="off" minlength="2" maxlength="255" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="description">Description</label>
-                            <input type="text" class="form-control" v-model="decription" disabled>
                         </div>
 
                         <br>
@@ -48,9 +43,8 @@
         mounted() {
             let promise = new Promise((resolve, reject) => {
                 axios.get('/api/projects/' + this.$route.params.id).then(res => {
-                    this.name          = res.data.project.name;
-                    this.description        = res.data.project.description;
-
+                    this.name        = res.data.project.name;
+                    this.description = res.data.project.description;
                     resolve();
                 });
             });
@@ -68,7 +62,6 @@
 
                 formData.append('_method', 'PATCH');
                 formData.append('name', this.name);
-                formData.append('email', this.description);
 
                 axios.post('/api/projects/' + this.$route.params.id, formData).then(res => {
                     this.$router.push({
