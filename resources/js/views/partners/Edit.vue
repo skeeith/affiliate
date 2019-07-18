@@ -4,25 +4,24 @@
             <div class="card-header">
                 <router-link class="text-primary" :to="{ name: 'partners.index' }">Partners</router-link>
                 /
-                <span class="text-secondary">Edit partners</span>
+                <span class="text-secondary">Edit Partner</span>
             </div>
             <div class="card-body">
                 <div v-if="ifReady">
-                    <form v-on:submit.prevent="updatePartners()">
+                    <form v-on:submit.prevent="updatePartner()">
                         <div class="form-group">
                             <label for="title">Name</label>
                             <input type="text" class="form-control" v-model="name" autocomplete="off" minlength="2" maxlength="255" required>
                         </div>
-
                         <div class="form-group">
-                            <label for="description">Description</label>
-                            <input type="text-area" class="form-control" v-model="description" disabled>
+                            <label>Description</label>
+                            <textarea class="form-control" v-model="description" maxlength="1000"></textarea>
                         </div>
 
                         <br>
 
                         <router-link class="btn btn-outline-secondary btn-sm" :to="{ name: 'partners.index' }"><i class="fas fa-chevron-left"></i>&nbsp; Back</router-link>
-                        <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-edit"></i>&nbsp; Update partners</button>
+                        <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-edit"></i>&nbsp; Update Partner</button>
                     </form>
                 </div>
                 <div v-else>
@@ -60,7 +59,7 @@
         },
 
         methods: {
-            updatePartners() {
+            updatePartner() {
                 this.ifReady = false;
 
                 let formData = new FormData();
@@ -69,7 +68,7 @@
                 formData.append('name', this.name);
                 formData.append('description', this.description);
 
-                axios.partners('/api/partners/' + this.$route.params.id, formData).then(res => {
+                axios.post('/api/partners/' + this.$route.params.id, formData).then(res => {
                     this.$router.push({
                         name: 'partners.view',
                         params: { id: this.$route.params.id }

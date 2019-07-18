@@ -24,6 +24,23 @@ class Partner extends Model
     ];
 
     /**
+     * Run functions on boot.
+     *
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (auth('api')->check()) {
+                $model->user_id = auth('api')->user()->id;
+            } else {
+                $model->user_id = request()->headers->get('USER-ID');
+            }
+        });
+    }
+
+    /**
      * The partner has many articles.
      *
      * @return array object

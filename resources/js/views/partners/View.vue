@@ -67,6 +67,7 @@
         mounted() {
             let promise = new Promise((resolve, reject) => {
                 axios.get('/api/partners/' + this.$route.params.id).then(res => {
+                    console.log(res.data.partner);
                     this.partner = res.data.partner;
                     resolve();
                 });
