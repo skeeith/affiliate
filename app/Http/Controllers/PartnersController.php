@@ -179,4 +179,25 @@ class PartnersController extends Controller
             'message' => 'Resource successfully deleted permanently'
         ], 200);
     }
+
+    /**
+     * Retrieve all resources.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getAllPartners()
+    {
+        if (! $partners = $this->partner->all()) {
+            return response()->json([
+                'response' => false,
+                'message'  => 'Resources does not exist.'
+            ], 400);
+        }
+
+        return response()->json([
+            'response' => true,
+            'message'  => 'Resources successfully retrieve.',
+            'partners' => $partners
+        ], 200);
+    }
 }

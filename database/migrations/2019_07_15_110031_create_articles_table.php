@@ -46,8 +46,8 @@ class CreateArticlesTable extends Migration
             $table->text('body');
             $table->string('number');
             $table->string('deep_link');
-            $table->text('short_description');
-            $table->text('long_description');
+            $table->text('short_description')->nullable();
+            $table->text('long_description')->nullable();
             $table->decimal('price', 10, 2)->nullable();
             $table->decimal('price_old', 10, 2)->nullable();
             $table->integer('sale')->unsigned();

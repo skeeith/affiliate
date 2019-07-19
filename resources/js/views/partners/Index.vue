@@ -5,7 +5,7 @@
                 <div class="float-left">
                     <router-link class="text-primary" :to="{ name: 'partners.index' }">Partners</router-link>
                     /
-                    <span class="text-secondary">View partners</span>
+                    <span class="text-secondary">View Partners</span>
                 </div>
                 <div class="float-right">
                     <router-link class="btn btn-success btn-sm" :to="{ name: 'partners.create' }"><i class="fas fa-plus"></i>&nbsp; Create New Partner</router-link>
@@ -28,14 +28,14 @@
                     <thead>
                         <tr>
                             <th scope="col">Name</th>
-                            <th scope="col">Description</th>
+                            <th scope="col">User</th>
                             <th scope="col">Options</th>
                         </tr>
                     </thead>
                     <tbody v-if="partners">
-                        <tr v-for="{ id, name, description } in partners">
+                        <tr v-for="{ id, user, name, description } in partners">
                             <td>{{ name }}</td>
-                            <td>{{ description }}</td>
+                            <td>{{ user.name }}</td>
                             <td>
                                 <router-link class="text-secondary" :to="{ name: 'partners.view', params: { id: id } }">
                                     <i class="fas fa-envelope-open-text"></i> View

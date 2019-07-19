@@ -10,12 +10,12 @@
                 <div v-if="ifReady">
                     <fieldset disabled>
                         <div class="form-group">
-                            <label>Name</label>
-                            <input type="text" class="form-control" v-model="brand.name">
+                            <label>Partner</label>
+                            <input type="text" class="form-control" v-model="brand.partner.name">
                         </div>
                         <div class="form-group">
-                            <label>Description</label>
-                            <input type="text-area" class="form-control" v-model="brand.description">
+                            <label>Name</label>
+                            <input type="text" class="form-control" v-model="brand.name">
                         </div>
                     </fieldset>
 

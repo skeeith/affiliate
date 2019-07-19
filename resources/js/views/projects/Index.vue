@@ -28,12 +28,14 @@
                     <thead>
                         <tr>
                             <th scope="col">Name</th>
+                            <th scope="col">User</th>
                             <th scope="col">Options</th>
                         </tr>
                     </thead>
                     <tbody v-if="projects">
-                        <tr v-for="{ id, name } in projects">
+                        <tr v-for="{ id, name, user } in projects">
                             <td>{{ name }}</td>
+                            <td>{{ user.name }}</td>
                             <td>
                                 <router-link class="text-secondary" :to="{ name: 'projects.view', params: { id: id } }">
                                     <i class="fas fa-envelope-open-text"></i> View

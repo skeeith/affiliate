@@ -24,6 +24,13 @@ class Partner extends Model
     ];
 
     /**
+     * Eager load relationships.
+     *
+     * @var array
+     */
+    protected $with = ['user'];
+
+    /**
      * Run functions on boot.
      *
      */

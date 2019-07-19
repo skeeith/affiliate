@@ -30,6 +30,13 @@ class Project extends Model
     protected $dates = ['deleted_at'];
 
     /**
+     * Eager load relationships.
+     *
+     * @var array
+     */
+    protected $with = ['user'];
+
+    /**
      * Run functions on boot.
      *
      */

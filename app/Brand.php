@@ -30,6 +30,13 @@ class Brand extends Model
     protected $dates = ['deleted_at'];
 
     /**
+     * Eager load relationships.
+     *
+     * @var array
+     */
+    protected $with = ['partner'];
+
+    /**
      * The brand belongs to a partner.
      *
      * @return object

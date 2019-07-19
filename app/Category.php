@@ -23,13 +23,33 @@ class Category extends Model
     ];
 
     /**
-     * The categories has many articles.
+     * The category has many articles.
      *
      * @return array object
      */
     public function articles()
     {
         return $this->hasMany(Article::class);
+    }
+
+    /**
+     * The category has many child categories.
+     *
+     * @return object
+     */
+    public function childCategories()
+    {
+        return $this->hasMany(Category::class, 'parent_id');
+    }
+
+    /**
+     * The category has a parent category.
+     *
+     * @return object
+     */
+    public function parentCategory()
+    {
+        return $this->belongsTo(Category::class, 'parent_id');
     }
 
     /**

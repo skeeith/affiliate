@@ -10,12 +10,16 @@
                 <div v-if="ifReady">
                     <fieldset disabled>
                         <div class="form-group">
+                            <label>User</label>
+                            <input type="text" class="form-control" v-model="partner.user.name">
+                        </div>
+                        <div class="form-group">
                             <label>Name</label>
                             <input type="text" class="form-control" v-model="partner.name">
                         </div>
                         <div class="form-group">
                             <label>Description</label>
-                            <input type="text-area" class="form-control" v-model="partner.description">
+                            <textarea class="form-control" v-model="partner.description"></textarea>
                         </div>
                     </fieldset>
 

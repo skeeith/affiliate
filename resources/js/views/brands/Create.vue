@@ -9,13 +9,17 @@
             <div class="card-body">
                 <div v-if="ifReady">
                     <form v-on:submit.prevent="createNewBrand()">
+                        <div class="col-md-3 form-group">
+                            <label>Partner</label>
+                            <vue-select v-model="partner" @input="selectPartner()" label="name" :options="partners"></vue-select>
+                        </div>
                         <div class="form-group">
                             <label for="name">Name</label>
                             <input type="title" class="form-control" v-model="name" autocomplete="off" minlength="2" maxlength="255" required>
                         </div>
                         <div class="form-group">
-                            <label for="description">Description</label>
-                            <input type="text-area" class="form-control" v-model="description" autocomplete="off" minlength="2" maxlength="255" required>
+                            <label>Description</label>
+                            <textarea class="form-control" v-model="description" maxlength="500"></textarea>
                         </div>
 
                         <br>
@@ -36,12 +40,15 @@
 </template>
 
 <script>
-    import { required, minLength, sameAs } from 'vuelidate/lib/validators';
+    import { required, minLength, maxLength, sameAs } from 'vuelidate/lib/validators';
 
     export default {
         data() {
             return {
-                ifReady: true,
+                ifReady: false,
+                partners: [],
+                partner: null,
+                partner_id: '',
                 name: '',
                 description: ''
             };
@@ -53,12 +60,30 @@
                 minLength: minLength(2)
             },
             description: {
-                required,
-                minLength: minLength(8)
+                minLength: maxLength(500)
             }
         },
 
+        mounted() {
+            let promise = new Promise((resolve, reject) => {
+                axios.get('/api/partners/get-all-partners').then(res => {
+                    this.partners = res.data.partners;
+                    resolve();
+                }).catch(err => {
+                    console.log(err);
+                    reject();
+                });
+            });
+
+            promise.then(() => {
+                this.ifReady = true;
+            });
+        },
+
         methods: {
+            selectPartner() {
+                this.partner_id = this.partner.id;
+            },
             createNewBrand() {
                 this.ifReady = false;
 
