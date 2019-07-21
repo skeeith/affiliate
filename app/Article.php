@@ -20,10 +20,9 @@ class Article extends Model
      */
     protected $fillable = [
         'user_id', 'partner_id', 'category_id', 'brand_id',
-        'title', 'image', 'image_detail', 'name', 'slug', 'body',
-        'number', 'deep_link', 'short_description', 'long_description',
-        'price', 'price_old', 'sale', 'sex', 'color', 'extra1', 'extra2',
-        'extra3'
+        'image', 'image_detail', 'name', 'description', 'number', 'deep_link',
+        'short_description', 'long_description', 'price', 'old_price', 'in_stock',
+        'is_for_sale', 'stock_status', 'sale', 'sex', 'color', 'extra1', 'extra2', 'extra3'
     ];
 
     /**
@@ -37,7 +36,7 @@ class Article extends Model
      * Run functions on boot.
      *
      */
-    public static function boot()
+    /*public static function boot()
     {
         parent::boot();
 
@@ -48,7 +47,7 @@ class Article extends Model
                 $model->user_id = request()->headers->get('USER-ID');
             }
         });
-    }
+    }*/
 
     /**
      * The article belongs to a category.

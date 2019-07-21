@@ -19,7 +19,7 @@ class Partner extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'name', 'description',
+        'user_id', 'project_id', 'name', 'description',
         'csv_url', 'csv_delimiter'
     ];
 
@@ -34,7 +34,7 @@ class Partner extends Model
      * Run functions on boot.
      *
      */
-    public static function boot()
+    /*public static function boot()
     {
         parent::boot();
 
@@ -45,7 +45,7 @@ class Partner extends Model
                 $model->user_id = request()->headers->get('USER-ID');
             }
         });
-    }
+    }*/
 
     /**
      * The partner has many articles.
@@ -65,6 +65,16 @@ class Partner extends Model
     public function brands()
     {
         return $this->hasMany(Brand::class);
+    }
+
+    /**
+     * The partner belongs to a project.
+     *
+     * @return object
+     */
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
     }
 
     /**

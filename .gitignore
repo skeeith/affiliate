@@ -3,6 +3,7 @@
 /public/storage
 /storage/*.key
 /storage/app/public
+/storage/app/excel_imports
 /public/css/*
 /public/js/*
 /public/*.js

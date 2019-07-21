@@ -40,7 +40,7 @@ class Project extends Model
      * Run functions on boot.
      *
      */
-    public static function boot()
+    /*public static function boot()
     {
         parent::boot();
 
@@ -51,7 +51,7 @@ class Project extends Model
                 $model->user_id = request()->headers->get('USER-ID');
             }
         });
-    }
+    }*/
 
     /**
      * The project has many categories.
@@ -61,6 +61,16 @@ class Project extends Model
     public function categories()
     {
         return $this->hasMany(Category::class);
+    }
+
+    /**
+     * The project has many partners.
+     *
+     * @return array object
+     */
+    public function partners()
+    {
+        return $this->hasMany(Partner::class);
     }
 
     /**

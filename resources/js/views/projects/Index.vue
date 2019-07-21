@@ -170,7 +170,7 @@
     export default {
         data() {
             return {
-                users: null,
+                projects: null,
                 name: '',
                 order_by: 'desc',
                 meta: {

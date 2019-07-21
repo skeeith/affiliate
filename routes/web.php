@@ -1,7 +1,5 @@
 <?php
 
-use App\Repositories\BrandRepository;
-
 // Login
 Route::get('/login', 'AuthController@showLoginForm');
 Route::post('/login', 'AuthController@login')->name('login');

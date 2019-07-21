@@ -28,7 +28,7 @@ class CreateCategoriesTable extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->string('name');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->tinyInteger('active')->default(1);
             $table->timestamps();
             $table->softDeletes();

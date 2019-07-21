@@ -21,6 +21,14 @@
                             <label>Description</label>
                             <textarea class="form-control" v-model="partner.description"></textarea>
                         </div>
+                        <div class="form-group">
+                            <label>CSV URL</label>
+                            <input type="text" class="form-control" v-model="partner.csv_url">
+                        </div>
+                        <div class="form-group">
+                            <label>CSV Delimiter</label>
+                            <input type="text" class="form-control" v-model="partner.csv_delimiter">
+                        </div>
                     </fieldset>
 
                     <br>

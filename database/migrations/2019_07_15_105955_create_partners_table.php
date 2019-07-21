@@ -21,8 +21,16 @@ class CreatePartnersTable extends Migration
                 ->on('users')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->bigInteger('project_id')->unsigned();
+            $table->foreign('project_id')
+                ->references('id')
+                ->on('projects')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->string('name');
-            $table->text('description');
+            $table->text('description')->nullable();
+            $table->text('csv_url')->nullable();
+            $table->text('csv_delimiter')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
