@@ -52,7 +52,7 @@ class CreateArticlesTable extends Migration
             $table->tinyInteger('in_stock')->nullable();
             $table->tinyInteger('is_for_sale')->nullable();
             $table->tinyInteger('stock_status')->nullable();
-            $table->integer('sale')->unsigned()->()->nullable();
+            $table->integer('sale')->unsigned()->nullable();
             $table->tinyInteger('sex')->nullable();
             $table->string('color')->nullable();
             $table->string('extra1')->nullable();
