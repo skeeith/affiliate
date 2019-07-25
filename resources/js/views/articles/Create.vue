@@ -10,10 +10,6 @@
                 <div v-if="ifReady">
                     <form v-on:submit.prevent="createNewPartner()">
                         <div class="form-group">
-                            <label>Project</label>
-                            <vue-select v-model="project" @input="selectProject()" label="name" :options="projects"></vue-select>
-                        </div>
-                        <div class="form-group">
                             <label for="name">Name</label>
                             <input type="title" class="form-control" v-model="name" autocomplete="off" minlength="2" maxlength="255" required>
                         </div>
@@ -45,10 +41,7 @@
     export default {
         data() {
             return {
-                ifReady: false,
-                projejcts: [],
-                project: '',
-                project_id: '',
+                ifReady: true,
                 name: '',
                 description: ''
             };
@@ -65,26 +58,7 @@
             }
         },
 
-        mounted() {
-            let promise = new Promise((resolve, reject) => {
-                axios.get('/api/projects/get-all-projects').then(res => {
-                    this.projects = res.data.projects;
-                    resolve();
-                }).catch(err => {
-                    console.log(err);
-                    reject();
-                });
-            });
-
-            promise.then(() => {
-                this.ifReady = true;
-            });
-        },
-
         methods: {
-            selectProject() {
-                this.project_id = this.project.id;
-            },
             createNewPartner() {
                 this.ifReady = false;
 

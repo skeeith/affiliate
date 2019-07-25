@@ -40,7 +40,7 @@ class Project extends Model
      * Run functions on boot.
      *
      */
-    /*public static function boot()
+    public static function boot()
     {
         parent::boot();
 
@@ -51,7 +51,17 @@ class Project extends Model
                 $model->user_id = request()->headers->get('USER-ID');
             }
         });
-    }*/
+    }
+
+    /**
+     * The projects has many brands through partners.
+     *
+     * @return array object
+     */
+    public function brands()
+    {
+        return $this->hasManyThrough(Brand::class, Partner::class);
+    }
 
     /**
      * The project has many categories.

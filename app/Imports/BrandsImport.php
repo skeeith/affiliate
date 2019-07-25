@@ -24,7 +24,7 @@ class BrandsImport implements ToCollection, WithHeadingRow, WithChunkReading, Wi
      */
     public function collection(Collection $rows)
     {
-        $partner_id = 2;
+        $partner_id = 1;
 
         foreach ($rows as $row) {
             if ($row['brand_name'] != '' || $row['brand_name'] != null) {

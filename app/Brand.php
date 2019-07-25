@@ -34,7 +34,7 @@ class Brand extends Model
      *
      * @var array
      */
-    protected $with = ['partner'];
+    //protected $with = ['partner'];
 
     /**
      * The brand belongs to a partner.

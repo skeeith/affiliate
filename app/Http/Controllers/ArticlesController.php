@@ -33,7 +33,7 @@ class ArticlesController extends Controller
      */
     public function index()
     {
-        if (! $data = ArticleResource::collection($this->article->paginate())) {
+        if (! $data = ArticleResource::collection($this->article->paginate(request()->per_page))) {
             return response()->json([
                 'message' => 'Failed to retrieve resource'
             ], 400);

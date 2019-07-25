@@ -17,6 +17,14 @@
                             <label>Description</label>
                             <textarea class="form-control" v-model="description" maxlength="1000"></textarea>
                         </div>
+                        <div class="form-group">
+                            <label>CSV URL</label>
+                            <input type="text" class="form-control" v-model="csv_url">
+                        </div>
+                        <div class="form-group">
+                            <label>CSV Delimiter</label>
+                            <input type="text" class="form-control" v-model="csv_delimiter">
+                        </div>
 
                         <br>
 
@@ -40,15 +48,20 @@
             return {
                 ifReady: false,
                 name: '',
-                description: ''
+                description: '',
+                csv_url: '',
+                csv_delimiter: ''
             };
         },
 
         mounted() {
             let promise = new Promise((resolve, reject) => {
                 axios.get('/api/partners/' + this.$route.params.id).then(res => {
-                    this.name        = res.data.partner.name;
-                    this.description = res.data.partner.description;
+                    this.name          = res.data.partner.name;
+                    this.description   = res.data.partner.description;
+                    this.csv_url       = res.data.csv_url;
+                    this.csv_delimiter = res.data.csv_delimiter;
+
                     resolve();
                 });
             });
@@ -67,6 +80,8 @@
                 formData.append('_method', 'PATCH');
                 formData.append('name', this.name);
                 formData.append('description', this.description);
+                formData.append('csv_url', this.csv_url);
+                formData.append('csv_delimiter', this.csv_delimiter);
 
                 axios.post('/api/partners/' + this.$route.params.id, formData).then(res => {
                     this.$router.push({

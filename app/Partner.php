@@ -34,7 +34,7 @@ class Partner extends Model
      * Run functions on boot.
      *
      */
-    /*public static function boot()
+    public static function boot()
     {
         parent::boot();
 
@@ -45,7 +45,7 @@ class Partner extends Model
                 $model->user_id = request()->headers->get('USER-ID');
             }
         });
-    }*/
+    }
 
     /**
      * The partner has many articles.

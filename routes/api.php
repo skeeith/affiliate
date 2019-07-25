@@ -55,6 +55,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     // Projects
     Route::match(['put', 'patch'], 'projects/{project}/restore', 'ProjectsController@restore');
     Route::delete('projects/{project}/force-delete', 'ProjectsController@forceDestroy');
+    Route::get('projects/get-all-projects', 'ProjectsController@getAllProjects');
     Route::resource('projects', 'ProjectsController', [
         'only' => [
             'index', 'store', 'show', 'update', 'destroy'

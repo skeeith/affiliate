@@ -25,22 +25,24 @@ class CategoriesImport implements ToCollection, WithHeadingRow, WithChunkReading
     public function collection(Collection $rows)
     {
         foreach ($rows as $row) {
-            $project_id = 2;
+            $project_id = 1;
 
             // for no delimiter
-            /*if ($row['merchant_product_category_path'] != '' || $row['merchant_product_category_path'] != null) {
-                if (! cache()->has($project_id . $row['merchant_product_category_path'])) {
-                    cache()->put($project_id . $row['merchant_product_category_path'], $project_id . $row['merchant_product_category_path'], 600);
+            if ($row['merchant_category'] != '' || $row['merchant_category'] != null) {
+                if (! cache()->has($project_id . $row['merchant_category'])) {
+                    cache()->put($project_id . $row['merchant_category'], $project_id . $row['merchant_category'], 600);
 
+                    $categoryName = trim($row['merchant_category']);
+                    $categoryName = utf8_encode($categoryName);
                     Category::firstOrCreate([
                         'project_id' => $project_id,
-                        'name'       => $row['merchant_product_category_path']
+                        'name'       => $categoryName
                     ]);
                 }
-            }*/
+            }
 
             // for with delimiter ">"
-            if ($row['merchant_product_category_path'] != '' || $row['merchant_product_category_path'] != null) {
+            /*if ($row['merchant_product_category_path'] != '' || $row['merchant_product_category_path'] != null) {
                 if (! cache()->has($project_id . $row['merchant_product_category_path'])) {
                     cache()->put($project_id . $row['merchant_product_category_path'], $project_id . $row['merchant_product_category_path'], 600);
 
@@ -48,23 +50,27 @@ class CategoriesImport implements ToCollection, WithHeadingRow, WithChunkReading
                     $total = count($categories) - 1;
 
                     for ($i = 0; $i <= $total; $i++) {
-                        $category = trim($categories[$i]);
-
                         if ($i == 0) {
+                            $categoryName = trim($categories[$i]);
+                            $categoryName = utf8_encode($categoryName);
+
                             Category::firstOrCreate([
                                 'project_id' => $project_id,
-                                'name'       => $category
+                                'name'       => $categoryName
                             ]);
                         } else {
                             $i--;
-                            $category = trim($categories[$i]);
-                            $parentCategory = Category::where('project_id', $project_id)->where('name', $category)->first();
+                            $categoryName = trim($categories[$i]);
+                            $categoryName = utf8_encode($categoryName);
+                            $parentCategory = Category::where('project_id', $project_id)->where('name', $categoryName)->first();
 
                             $i++;
-                            $category = trim($categories[$i]);
+                            $categoryName = trim($categories[$i]);
+                            $categoryName = utf8_encode($categoryName);
+
                             $newCategory = Category::firstOrCreate([
                                 'project_id' => $project_id,
-                                'name'       => $category
+                                'name'       => $categoryName
                             ]);
 
                             if ($parentCategory) {
@@ -74,7 +80,7 @@ class CategoriesImport implements ToCollection, WithHeadingRow, WithChunkReading
                         }
                     }
                 }
-            }
+            }*/
         }
     }
 

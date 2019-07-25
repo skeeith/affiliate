@@ -34,8 +34,8 @@ class ArticlesImport implements ToCollection, WithHeadingRow, WithChunkReading, 
             $oldPrice     = null;
             $number       = null;
             $stockStatus  = 0;
-            $partner_id   = 2;
-            $project_id   = 2;
+            $partner_id   = 1;
+            $project_id   = 1;
 
             $cache = $row['aw_image_url'] . $row['product_name'] . $row['merchant_product_id'] . $row['merchant_deep_link'] . $row['product_short_description'] . $row['display_price'] . $row['product_price_old'] . $row['in_stock'] . $row['is_for_sale'] . $row['stock_status'];
 
@@ -43,29 +43,30 @@ class ArticlesImport implements ToCollection, WithHeadingRow, WithChunkReading, 
                 cache()->put($cache, $cache, 600);
 
                 if ($row['brand_name'] != '' || $row['brand_name'] != null) {
-                    $brandId = Brand::where('name', $row['brand_name'])->where('partner_id', $partner_id)->first()->id;
+                    $brandId = Brand::where('name', $row['brand_name'])->where('partner_id', $partner_id)->value('id');
                 } else {
                     $brandId = null;
                 }
 
                 // for no delimiter
-                /*if ($row['merchant_category'] != '' || $row['merchant_category'] != null) {
-                    $categoryId = Category::where('name', $row['merchant_category'])->first()->id;
-                } else {
-                    $categoryId = null;
-                }*/
-
-                // for with delimiter >
-                if ($row['merchant_product_category_path'] != '' || $row['merchant_product_category_path'] != null) {
-                    $categories = explode('>', $row['merchant_product_category_path']);
-                    $index = count($categories) - 1;
-                    $categoryName = trim($categories[$index]);
-
-                    cache()->put('category', $categoryName, 600);
-                    $categoryId = Category::where('name', $categoryName)->where('project_id', $project_id)->value('id');
+                if ($row['merchant_category'] != '' || $row['merchant_category'] != null) {
+                    $categoryName = trim($row['merchant_category']);
+                    $categoryName = utf8_encode($categoryName);
+                    $categoryId = Category::where('name', $categoryName)->value('id');
                 } else {
                     $categoryId = null;
                 }
+
+                // for with delimiter >
+                /*if ($row['merchant_product_category_path'] != '' || $row['merchant_product_category_path'] != null) {
+                    $categories = explode('>', $row['merchant_product_category_path']);
+                    $index = count($categories) - 1;
+                    $categoryName = trim($categories[$index]);
+                    $categoryName = utf8_encode($categoryName);
+                    $categoryId = Category::where('name', $categoryName)->where('project_id', $project_id)->value('id');
+                } else {
+                    $categoryId = null;
+                }*/
 
                 if ($row['merchant_product_id'] != '' || $row['merchant_product_id'] != null) {
                     $product_id = $row['merchant_product_id'];
@@ -111,10 +112,10 @@ class ArticlesImport implements ToCollection, WithHeadingRow, WithChunkReading, 
 
                 Article::firstOrCreate([
                     'user_id'           => 1,
-                    'partner_id'        => 2,
-                    'category_id'       => $categoryId, // merchant_category_name or merchant_product_category_path
+                    'partner_id'        => $partner_id,
+                    'category_id'       => $categoryId, // merchant_category or merchant_product_category_path
                     'brand_id'          => $brandId, // brand_name
-                    'image'             => $row['aw_image_url'],
+                    'image'             => $row['merchant_image_url'],
                     'name'              => $row['product_name'],
                     'number'            => $product_id, // merchant_product_id
                     'deep_link'         => $row['merchant_deep_link'],

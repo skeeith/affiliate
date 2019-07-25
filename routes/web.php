@@ -18,4 +18,8 @@ Route::get('register/', 'Auth\RegisterController@showRegistrationForm')->name('s
 Route::post('register/', 'Auth\RegisterController@register')->name('register');
 
 // Single Page Application
-Route::get('/{any}', 'SpaController@index')->where('any', '.*')->name('index');
+// Route::get('/{any}', 'SpaController@index')->where('any', '.*')->name('index');
+
+Route::get('/', function () {
+    return \App\Project::with('brands')->where('id', 1)->first();
+});

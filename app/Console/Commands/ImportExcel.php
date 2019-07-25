@@ -41,9 +41,25 @@ class ImportExcel extends Command
     public function handle()
     {
         cache()->flush();
+
         $this->output->title('Starting import');
+
+        $this->info('Brands import starting');
+        (new BrandsImport)->withOutput($this->output)->import(storage_path('app/excel_imports/wayfair.xlsx'));
+        $this->info('Brands import done');
+
+        $this->info('Categories import starting');
+        (new CategoriesImport)->withOutput($this->output)->import(storage_path('app/excel_imports/wayfair.xlsx'));
+        $this->info('Categories import done');
+
+        $this->info('Articles import starting');
+        (new ArticlesImport)->withOutput($this->output)->import(storage_path('app/excel_imports/wayfair.xlsx'));
+        $this->info('Articles import done');
+
+        cache()->flush();
+
         //(new CategoriesImport)->withOutput($this->output)->import(storage_path('app/excel_imports/wayfair.xlsx'));
-        //(new ArticlesImport)->withOutput($this->output)->import(storage_path('app/excel_imports/averdo.xlsx'));
+        //(new CategoriesImport)->withOutput($this->output)->import(storage_path('app/excel_imports/averdo.xlsx'));
         //(new CategoriesImport)->withOutput($this->output)->import(storage_path('app/excel_imports/moebel-ideal.xlsx'));
         $this->output->success('Import successful');
     }

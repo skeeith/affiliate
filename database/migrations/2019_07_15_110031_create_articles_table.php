@@ -39,7 +39,7 @@ class CreateArticlesTable extends Migration
                 ->on('brands')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->string('image')->nullable();
+            $table->text('image')->nullable();
             $table->text('image_detail')->nullable();
             $table->string('name');
             $table->text('description')->nullable();

@@ -1,14 +1,14 @@
 <template>
     <div>
-        <div class="card">
+        <!-- <div class="card">
             <div class="card-header clearfix">
                 <div class="float-left">
-                    <router-link class="text-primary" :to="{ name: 'partners.index' }">Partners</router-link>
+                    <router-link class="text-primary" :to="{ name: 'partners.index' }">Articles</router-link>
                     /
-                    <span class="text-secondary">View Partners</span>
+                    <span class="text-secondary">View Articles</span>
                 </div>
                 <div class="float-right">
-                    <router-link class="btn btn-success btn-sm" :to="{ name: 'partners.create' }"><i class="fas fa-plus"></i>&nbsp; Create New Partner</router-link>
+                    <router-link class="btn btn-success btn-sm" :to="{ name: 'articles.create' }"><i class="fas fa-plus"></i>&nbsp; Create New Article</router-link>
                 </div>
             </div>
             <div class="card-body">
@@ -16,7 +16,7 @@
                     <caption>
                         <div class="row">
                             <div class="col-md-9">
-                                List of partners - Total Items {{ this.meta.total }}
+                                List of articles - Total Items {{ this.meta.total }}
                             </div>
                             <div class="col-md-3">
                                 <div class="progress" height="30px;" v-if="showProgress">
@@ -32,16 +32,16 @@
                             <th scope="col">Options</th>
                         </tr>
                     </thead>
-                    <tbody v-if="partners">
-                        <tr v-for="{ id, user, name, description } in partners">
+                    <tbody v-if="articles">
+                        <tr v-for="{ id, user, name, description } in articles">
                             <td>{{ name }}</td>
                             <td>{{ user.name }}</td>
                             <td>
-                                <router-link class="text-secondary" :to="{ name: 'partners.view', params: { id: id } }">
+                                <router-link class="text-secondary" :to="{ name: 'articles.view', params: { id: id } }">
                                     <i class="fas fa-envelope-open-text"></i> View
                                 </router-link>
                                 |
-                                <router-link class="text-secondary" :to="{ name: 'partners.edit', params: { id: id }}">
+                                <router-link class="text-secondary" :to="{ name: 'articles.edit', params: { id: id }}">
                                     <i class="fas fa-edit"></i> Edit
                                 </router-link>
                             </td>
@@ -49,9 +49,7 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-
-        <br>
+        </div> -->
 
         <div class="clearfix">
             <div v-if="pageCount">
@@ -99,7 +97,7 @@
 
             <div class="float-right">
                 <form class="form-inline">
-                    <button type="button" class="btn btn-primary mr-2" @click.prevent.default="openSearchModal()">Search Partners</button>
+                    <button type="button" class="btn btn-primary mr-2" @click.prevent.default="openSearchModal()">Search Articles</button>
                     <label class="sr-only" for="Number of Items">Number of Items</label>
                     <div class="input-group">
                         <div class="input-group-prepend">
@@ -119,7 +117,7 @@
                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Search partners</h5>
+                            <h5 class="modal-title">Search Articles</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -150,14 +148,31 @@
                 </div>
             </div>
         </div>
+
+        <br>
+
+        <div class="row d-flex">
+            <div class="col-md-3" v-for="article in articles">
+                <div class="card mb-4">
+                    <img :src="article.image" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ article.name }}</h5>
+                        <p class="card-text">{{ article.short_description }}</p>
+                        <router-link class="btn btn-primary" :to="{ name: 'articles.view', params: { id: article.id } }">
+                            <i class="fas fa-envelope-open-text"></i> View Details
+                        </router-link>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
-    const getPartners = (page, per_page, searchColumnName, searchColumnDescription, order_by, callback) => {
+    const getArticles = (page, per_page, searchColumnName, searchColumnDescription, order_by, callback) => {
         const params = { page, per_page, searchColumnName, searchColumnDescription, order_by };
 
-        axios.get('/api/partners', { params }).then(res => {
+        axios.get('/api/articles', { params }).then(res => {
             callback(null, res.data);
         }).catch(error => {
             if (error.response.status == 401) {
@@ -173,8 +188,7 @@
     export default {
         data() {
             return {
-                users: null,
-                partners: '',
+                articles: [],
                 searchColumnName: '',
                 searchColumnDescription: '',
                 order_by: 'desc',
@@ -201,18 +215,18 @@
 
         beforeRouteEnter (to, from, next) {
             if (to.query.per_page == null) {
-                getPartners(to.query.page, 10, to.query.searchColumnName, to.query.searchColumnDescription, to.query.order_by, (err, data) => {
+                getArticles(to.query.page, 10, to.query.searchColumnName, to.query.searchColumnDescription, to.query.order_by, (err, data) => {
                     next(vm => vm.setData(err, data));
                 });
             } else {
-                getPartners(to.query.page, to.query.per_page, to.query.searchColumnName, to.query.searchColumnDescription, to.query.order_by, (err, data) => {
+                getArticles(to.query.page, to.query.per_page, to.query.searchColumnName, to.query.searchColumnDescription, to.query.order_by, (err, data) => {
                     next(vm => vm.setData(err, data));
                 });
             }
         },
 
         beforeRouteUpdate (to, from, next) {
-            getPartners(to.query.page, this.meta.per_page, this.searchColumnName, this.searchColumnDescription, this.order_by, (err, data) => {
+            getArticles(to.query.page, this.meta.per_page, this.searchColumnName, this.searchColumnDescription, this.order_by, (err, data) => {
                 this.setData(err, data);
                 next();
             });
@@ -261,7 +275,7 @@
             goToFirstPage() {
                 this.showProgress = true;
                 this.$router.push({
-                    searchColumnName: 'partners.index',
+                    name: 'articles.index',
                     query: {
                         page: 1,
                         per_page: this.meta.per_page,
@@ -274,7 +288,7 @@
             goToPage(page = null) {
                 this.showProgress = true;
                 this.$router.push({
-                    searchColumnName: 'partners.index',
+                    name: 'articles.index',
                     query: {
                         page,
                         per_page: this.meta.per_page, searchColumnName: this.searchColumnName,
@@ -286,7 +300,7 @@
             goToLastPage() {
                 this.showProgress = true;
                 this.$router.push({
-                    searchColumnName: 'partners.index',
+                    name: 'articles.index',
                     query: {
                         page: this.meta.last_page,
                         per_page: this.meta.per_page,
@@ -299,7 +313,7 @@
             goToNextPage() {
                 this.showProgress = true;
                 this.$router.push({
-                    searchColumnName: 'partners.index',
+                    name: 'articles.index',
                     query: {
                         page: this.nextPage,
                         per_page: this.meta.per_page,
@@ -312,7 +326,7 @@
             goToPreviousPage() {
                 this.showProgress = true;
                 this.$router.push({
-                    searchColumnName: 'partners.index',
+                    name: 'articles.index',
                     query: {
                         page: this.prevPage,
                         per_page: this.meta.per_page,
@@ -322,13 +336,13 @@
                     }
                 });
             },
-            setData(err, { data: partners, links, meta }) {
+            setData(err, { data: articles, links, meta }) {
                 this.pageNumbers = [];
 
                 if (err) {
                     this.error = err.toString();
                 } else {
-                    this.partners = partners;
+                    this.articles = articles;
                     this.links = links;
                     this.meta = meta;
                 }
@@ -389,7 +403,7 @@
             changePerPage() {
                 this.showProgress = true;
                 this.$router.push({
-                    name: 'partners.index',
+                    name: 'articles.index',
                     query: {
                         page: 1,
                         per_page: this.meta.per_page,
@@ -402,8 +416,9 @@
             search() {
                 $('#searchModal').modal('hide');
                 this.showProgress = true;
+                
                 this.$router.push({
-                    name: 'partners.index',
+                    name: 'articles.index',
                     query: {
                         page: 1,
                         per_page: this.meta.per_page,
